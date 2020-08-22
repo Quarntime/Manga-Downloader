@@ -27,8 +27,8 @@ search = tk.Button(root, text='Search')
 search.place(rely=.1 ,relx=.53, height=20)
 search.config(command=lambda: events.search(keyword=searchbar.get()))
 
-# label = tk.Label(root, text=events.manga_name)
-# label.pack(side='top')
+for title in cf.manga_name:
+
 
 
 root.mainloop()
