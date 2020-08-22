@@ -28,7 +28,7 @@ search.place(rely=.1 ,relx=.53, height=20)
 search.config(command=lambda: events.search(keyword=searchbar.get()))
 
 for title in cf.manga_name:
-
+    
 
 
 root.mainloop()
