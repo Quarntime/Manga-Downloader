@@ -7,6 +7,9 @@ import URLHIERARCHY as ur
 from bs4 import BeautifulSoup as bs
 
 def search(keyword):
+    for i in range(len(cf.button)):
+        cf.button[i].pack_forget()
+
     Runtime = False
     title_class = []
     thumbnail_class = []
@@ -38,22 +41,21 @@ def search(keyword):
                 type_class.append(table.find(class_='d59'))
                 genre_class.append(table.find(class_='d60'))
 
-                manga_raw = title_class[i]
-                href_raw = title_class[i]
-                thumbnail_raw = thumbnail_class[i]
-                type_raw = type_class[i]
-                chapters_raw = chapters_class[i]
-                genre_raw = genre_class[i]
+                manga_name.append(title_class[i].text)
+                domain_path.append(title_class[i].a['href'])
+                thumbnail.append(thumbnail_class[i]['data-src'])
+                type.append(type_class[i].text)
+                chapters.append(chapters_class[i].text)
+                genre.append(genre_class[i].text)
 
-                manga_name.append(manga_raw.text)
-                domain_path.append(href_raw.a['href'])
-                thumbnail.append(thumbnail_raw['data-src'])
-                type.append(type_raw.text)
-                chapters.append(chapters_raw.text)
-                genre.append(genre_raw.text)
+                print(thumbnail_class)
 
-                cf.button[i].config(text=manga_name[i])
-                cf.button[i].pack(side='top')
+                cf.button[i].config(
+                    text=manga_name[i],
+                    command=lambda manga_title=manga_name[i]: on_click(manga_title)
+                )
+
+                cf.button[i].pack(side='top', anchor='nw')
                 table = table.next_sibling
                 i+=1
 
@@ -66,7 +68,7 @@ def search(keyword):
         else:
             break
 
-def on_click(choice):
+def on_click(manga_title):
 
     manga_domain = ur.url_domains["mangareader"]
     manga_domain = ur.url_domains[ur.urls[url_index]] + domain_path[choice]
