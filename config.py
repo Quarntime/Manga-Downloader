@@ -1,6 +1,6 @@
 # Frame Height
-FHEIGHT = 390
-FWIDTH = 530
+FHEIGHT = 605
+FWIDTH = 935
 
 # Background Color
 BGCOLOR = 'grey'
@@ -27,10 +27,15 @@ url_domains = {
 }
 
 # global vars; do not change
-IMGLIST = {}
 url_index = 0
 button = []
+domain_path = []
+chapters = []
+c_buttons = []
+manga_domain = ''
+genre_label = []
+thumbnail = []
+type_label = []
+loading = ''
 
 choice = 0
-Runtime = True
-domain_path = []
