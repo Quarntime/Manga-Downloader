@@ -3,7 +3,6 @@ import os
 import requests as r
 import config as cf
 import tkinter as tk
-import URLHIERARCHY as ur
 from bs4 import BeautifulSoup as bs
 
 def search(keyword):
@@ -18,13 +17,13 @@ def search(keyword):
     genre_class = []
 
     manga_name = []
-    domain_path = []
+    cf.domain_path = []
     thumbnail = []
     type = []
     chapters = []
     genre = []
-    for i in range(len(ur.urls)):
-        search_domain = ur.url_search_list[ur.urls[cf.url_index]]
+    for i in range(len(cf.urls)):
+        search_domain = cf.url_search_list[cf.urls[cf.url_index]]
         url = search_domain + keyword
         raw = r.get(url)
 
@@ -42,7 +41,7 @@ def search(keyword):
                 genre_class.append(table.find(class_='d60'))
 
                 manga_name.append(title_class[i].text)
-                domain_path.append(title_class[i].a['href'])
+                cf.domain_path.append(title_class[i].a['href'])
                 thumbnail.append(thumbnail_class[i]['data-src'])
                 type.append(type_class[i].text)
                 chapters.append(chapters_class[i].text)
@@ -52,7 +51,7 @@ def search(keyword):
 
                 cf.button[i].config(
                     text=manga_name[i],
-                    command=lambda manga_title=manga_name[i]: on_click(manga_title)
+                    command=lambda choice=manga_name[i]: on_click(manga_name, choice)
                 )
 
                 cf.button[i].pack(side='top', anchor='nw')
@@ -68,10 +67,9 @@ def search(keyword):
         else:
             break
 
-def on_click(manga_title):
-
-    manga_domain = ur.url_domains["mangareader"]
-    manga_domain = ur.url_domains[ur.urls[url_index]] + domain_path[choice]
+def on_click(manga_title, choice):
+    index = manga_title.index(choice)
+    manga_domain = cf.url_domains[cf.urls[cf.url_index]] + cf.domain_path[index]
     raw_manga = r.get(manga_domain)
     html_manga = bs(raw_manga.content, 'html.parser')
-    print(html_manga)
+    print(html_manga.prettify())
