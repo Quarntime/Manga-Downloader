@@ -5,7 +5,7 @@ import methods as _m
 # command for <Return> key on search bar and search button
 def search(keyword):
     # reseting the results
-    for i in range(len(cf.button)):
+    for i in range(len(cf.urls)):
         cf.button[i].pack_forget()
 
     # initializes/resets value
@@ -13,7 +13,7 @@ def search(keyword):
 
     # runs for each site in the cf.urls list
     for i in range(len(cf.urls)):
-        metod.initialize()
+        method.initialize()
 
         try:
             method.mangareader()

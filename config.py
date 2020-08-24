@@ -13,5 +13,6 @@ genre_label = []
 thumbnail = []
 type_label = []
 loading = ''
+urls = ['mangareader']
 
 choice = 0

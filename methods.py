@@ -18,14 +18,13 @@ class Methods:
         self.url_search_list = {
         'mangareader': 'https://www.mangareader.net/search/?nsearch=&msearch='
         }
-        self.urls = ['mangareader']
         self.i = 0
         self.url = ''
         self.choice = ''
         self.html = bs()
 
     def initialize(self):
-        url = self.url_search_list[self.urls[cf.url_index]] + self.keyword
+        url = self.url_search_list[cf.urls[cf.url_index]] + self.keyword
         self.html = bs(r.get(url).content, 'html.parser')
 
 
@@ -35,36 +34,33 @@ class Methods:
             self.domain_path.append(table.find(class_='d57').a['href'])
             self.thumbnail.append(table.find(class_='d56 dlz')['data-src'])
             self.type.append(table.find(class_='d59').text)
-            self.cf.chapters.append(table.find(class_='d58').text)
+            self.chapters.append(table.find(class_='d58').text)
             self.genre.append(table.find(class_='d60').text)
 
-        cf.button[self.i].config(
-            text=manga_name[self.i] + '/n' + genre[self.i],
-            command=lambda choice=self.manga_name[self.i]: mangareader_click(self.manga_name, choice)
-        )
+            cf.button[self.i].config(
+                text=self.manga_name[self.i] + '\n' + self.genre[self.i],
+                command=lambda choice=self.manga_name[self.i]: self.mangareader_click(choice)
+                )
+            print(self.manga_name[self.i])
 
-        cf.button[self.i].pack(side='top', anchor='nw')
-        table = table.next_sibling
-        self.i+=1
+            cf.button[self.i].pack(side='top', anchor='nw')
+            table = table.next_sibling
+            self.i+=1
 
 
-    def mangareader_click(self, manga_name, choice):
+    def mangareader_click(self, userchoice):
         index = self.manga_name.index(self.choice)
         chapters = self.chapters[index]
-        self.manga_domain = self.url_domains[self.urls[cf.url_index]] + self.domain_path[index]
+        self.manga_domain = self.url_domains[cf.urls[cf.url_index]] + self.domain_path[index]
         html_manga = bs(r.get(self.manga_domain).content, 'html.parser')
 
         for chapter in chapters:
             cf.c_buttons[chapter].config(
             text=chapter,
-            command=lambda chapter_choice=chapter: manga_click(chapter_choice)
+            command=lambda chapter_choice=chapter: self.manga_click(chapter_choice)
             )
 
-    def manga_click(self, chapter_choice):
+    def manga_click(self):
         self.manga_domain += '/' + str(chapter_choice)
         html_chapter = bs(r.get(self.mangadomain).content)
         print(html_chapter.prettify())
-keyword = 'sad'
-
-method = Methods(keyword, domain_path=[], chapters=[], thumbnail=[], type=[], manga_name=[], genre=[])
-method.mangareader_click()
